@@ -17,7 +17,7 @@ const docketSchema = new mongoose.Schema({
 
   const Docket = mongoose.model('docket', docketSchema, 'dockets');
 
-// Your MongoDB URL
+
 const dbURL = 'mongodb+srv://naruto:naruto@cluster0.be644zi.mongodb.net/db?retryWrites=true&w=majority';
 app.use(cors());
 app.use(express.json())
@@ -34,14 +34,13 @@ connection.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
-// Define a Mongoose model for the "data" collection
 const dataSchema = new mongoose.Schema({
-  // Define your schema fields based on your document structure
+
 });
 
 const Data = mongoose.model('data', dataSchema, 'data');
 
-// Get all unique suppliers
+
 app.get('/api/unique-suppliers', async (req, res) => {
   try {
     const uniqueSuppliers = await Data.distinct('Supplier');
@@ -52,7 +51,7 @@ app.get('/api/unique-suppliers', async (req, res) => {
   }
 });
 
-// Get purchase orders for a specific supplier
+
 app.get('/api/purchase-orders/:supplierName', async (req, res) => {
   const { supplierName } = req.params;
   console.log(supplierName)
@@ -80,7 +79,7 @@ app.get('/api/dockets', async (req, res) => {
 
 
 app.post('/api/create-docket', async (req, res) => {
-    // Get data from the request body
+
     const {
       name,
       startTime,
@@ -92,7 +91,7 @@ app.post('/api/create-docket', async (req, res) => {
     } = req.body;
   
     try {
-      // Create a new document in the "dockets" collection with the submitted data
+
       const newDocket = new Docket({
         Name: name,
         StartTime: startTime,
@@ -103,7 +102,7 @@ app.post('/api/create-docket', async (req, res) => {
         PurchaseOrder: selectedPurchaseOrder,
       });
   
-      // Save the new docket
+     
       await newDocket.save();
   
       res.status(201).json({ message: 'Docket created successfully' });
@@ -113,13 +112,12 @@ app.post('/api/create-docket', async (req, res) => {
     }
   });
 
-  // Create a route to fetch the description for a specific PO number
   app.get('/api/description/:poNumberPart', async (req, res) => {
     const { poNumberPart } = req.params;
     console.log(poNumberPart)
   
     try {
-      // Fetch the description for the selected PO number
+      
       const description = await Data.findOne({ "PO Number": { $regex: new RegExp(`/${poNumberPart}$`) } }, 'Description');
       res.send(description)
     } catch (error) {
@@ -130,8 +128,6 @@ app.post('/api/create-docket', async (req, res) => {
 
   
   
-
-// Start the server
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
