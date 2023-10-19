@@ -1,15 +1,30 @@
 {
-    "version": 2,
-    "builds": [
-        {
-            "src": "./index.js",
-            "use": "@vercel/node"
-        }
-    ],
-    "routes": [
-        {
-            "src": "/(.*)",
-            "dest": "index.js"
-        }
-    ]
+  "version": 2,
+  "builds": [{ "src": "index.js", "use": "@vercel/node" }],
+  "routes": [
+    {
+      "src": "/api/unique-suppliers",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/purchase-orders/:supplierName",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/dockets",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/create-docket",
+      "dest": "/index.js"
+    },
+    {
+      "src": "/api/description/:poNumberPart",
+      "dest": "/index.js"
+    },
+    {
+      "src": ".*",
+      "dest": "/index.js"
+    }
+  ]
 }
